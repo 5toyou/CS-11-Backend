@@ -1,10 +1,10 @@
 from django.shortcuts import render
-from recipe.models import recipe
+from recipe.models import Recipies
 
 # Create your views here.
 
 def recepie_list(request):
-    recepies = recipe.objects.all()
+    recepies = Recipies.objects.all()
     context = {
         'recepie_list': recepies,
     }

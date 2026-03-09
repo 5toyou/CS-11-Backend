@@ -2,9 +2,9 @@ from django.db import models
 
 # Create your models here.
 
-class recipe(models.Model):
-    name = models.CharField(max_length=255)
-    ingridients = models.CharField(max_length=255)
+class Recipies(models.Model):
+    name = models.CharField(max_length=50)
+    description = models.CharField(max_length=500)
 
-class ingridient(models.Model):
-    name = models.CharField(max_length=255)
+class Ingridient(models.Model):
+    name = models.CharField(max_length=50)

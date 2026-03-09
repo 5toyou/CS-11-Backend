@@ -5,10 +5,12 @@
 <body>
     <div>All of receipts is here</div>
     <ul>
-        {% for recepie in recepie_list %}
-            <li>
-                {{ recepie.name }}
-            </li>
+        {% for Recipies in recepie_list %}
+            <div class="recepie">
+                <div class="recepie_name">{{ Recipies.name }}</div>
+                <div>description: {{ Recipies.description }}</div>
+                <div>ingridients: </div>
+            </div>
         {% endfor %}
     </ul>
 </body>
