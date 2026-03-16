@@ -12,13 +12,14 @@ class CustomUserManager(BaseUserManager):
         user.set_password(password)
         user.save(using=self._db)
         return user
+    
     def create_superuser(self, phone, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         extra_fields.setdefault('role', 'admin')
+
         return self.create_user(phone, password, **extra_fields)
     
-objects = CustomUserManager()
 
 
 class CustomUser(AbstractUser):
@@ -31,8 +32,10 @@ class CustomUser(AbstractUser):
         default='teacher',
     )
 
+    objects = CustomUserManager()
+
     USERNAME_FIELD = 'phone'
     REQUIRED_FIELDS = ['first_name', 'last_name']
 
     def __str__(self):
-        return (f"{self.first_name} {self.last_name} ({self.phone}")
+        return f"{self.first_name} {self.last_name} ({self.phone})"
