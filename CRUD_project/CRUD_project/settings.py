@@ -37,13 +37,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'users',
 ]
 
 
 # CRITICAL: Tell Django to use our custom model
 AUTH_USER_MODEL = 'users.CustomUser'
+
+# Default redirect for @login_required
+LOGIN_URL = '/login/'
+
+#The backend decides HOW to verify credentials.
+AUTHENTICATION_BACKENDS = ['users.backends.EmailBackend']
 
 
 MIDDLEWARE = [

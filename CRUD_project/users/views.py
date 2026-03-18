@@ -2,7 +2,11 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
+from django.contrib.auth import get_user_model
+
 from users.models import Books
+from django.contrib.auth.decorators import login_required
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -13,7 +17,7 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            return redirect('dashboard')
+            return redirect('books')
         else:
             return render(request, 'users/login.html', {
                 'error': 'Invalid credentials'
@@ -21,14 +25,37 @@ def login_view(request):
         
     return render(request, 'users/login.html')
 
+def register_view(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+
+        User = get_user_model()
+        if User.objects.filter(email=email).exists():
+            return render(request, 'users/register.html', {
+                'error': 'Email already exists'
+            })
+        
+        user = User.objects.create_user(email=email, password=password, first_name=first_name, last_name=last_name)
+        login(request, user)
+        return redirect('books')
+
+    return render(request, 'users/register.html')
+
 def logout_view(request):
     logout(request)
     return redirect('login')
 
-def Books_page(request):
+
+@login_required(login_url='/login/')
+
+
+def books_page(request):
     books = Books.objects.all()
     context = {
-        'books_list': books,
+        'book_list': books
     }
 
-    return render(request,context)
+    return render(request,'books.html',context)

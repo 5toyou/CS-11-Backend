@@ -4,9 +4,10 @@
 {% endif %}
 <form method="post">
 {% csrf_token %}
-<label>Phone:</label>
-<input type="text" name="email" required>
 <label>Email:</label>
+<input type="text" name="email" required>
+<label>Password:</label>
 <input type="password" name="password" required>
 <button type="submit">Log In</button>
 </form>
+<p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>

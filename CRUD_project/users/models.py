@@ -6,6 +6,8 @@ from django.db import models
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_active', True)
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
@@ -23,7 +25,7 @@ class CustomUserManager(BaseUserManager):
 class CustomUser(AbstractUser):
     username = None
     email = models.CharField(max_length=100, unique=True)
-    role = models.CharField(max_length=10,default='user')
+    role = models.CharField(max_length=10,default='admin')
 
     objects = CustomUserManager()
 
