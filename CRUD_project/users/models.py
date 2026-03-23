@@ -21,7 +21,6 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
     
 
-
 class CustomUser(AbstractUser):
     username = None
     email = models.CharField(max_length=100, unique=True)
@@ -35,8 +34,3 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.email})"
 
-
-
-class Books(models.Model):
-    name = models.CharField(max_length=100)
-    author = models.CharField(max_length=100)

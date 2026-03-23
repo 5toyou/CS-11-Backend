@@ -4,9 +4,6 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.contrib.auth import get_user_model
 
-from users.models import Books
-from django.contrib.auth.decorators import login_required
-
 
 def login_view(request):
     if request.method == 'POST':
@@ -48,14 +45,3 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
-
-@login_required(login_url='/login/')
-
-
-def books_page(request):
-    books = Books.objects.all()
-    context = {
-        'book_list': books
-    }
-
-    return render(request,'books.html',context)

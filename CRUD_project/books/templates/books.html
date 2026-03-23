@@ -20,10 +20,21 @@
     <h1>Books</h1>
     {% for book in book_list %}
         <div>
-            <div>name: {{ book.name }}</div>
-            <div>author: {{ book.author }}</div>
+            <a href="{% url 'book_info' book.id %}">name: {{ book.name }}</a>
         </div>
     {% endfor %}
+
+    <h1>Add a new book</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label>book name</label>
+        <input type="text" name="book_name" required>
+
+        <label>author name</label>
+        <input type="text" name="author_name" required>
+
+        <button type="submit">Add Book</button>
+    </form>
 
 </body>
 </html>
