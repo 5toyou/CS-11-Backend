@@ -23,10 +23,10 @@ class CustomUserManager(BaseUserManager):
     
 class CustomUser(AbstractUser):
     username = None
-    phone = models.CharField(max_length=20, unique=True)
+    phone = models.CharField(max_length=20, blank=True)
     email = models.CharField(max_length=50,unique=True)
-    address = models.CharField(max_length=50)
-    dob = models.DateField()
+    address = models.CharField(max_length=50, blank=True)
+    dob = models.DateField(null=True, blank=True)
     role = models.CharField(
         max_length=20,
         choices=[('admin', 'Admin'), ('instructor', 'Instructor')],
