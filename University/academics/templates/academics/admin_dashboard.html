@@ -1,1 +1,19 @@
-<div>admin_dashboard page</div>
+<div style="color: green;">admin_dashboard.html</div>
+<h1>Admin Dashboard</h1>
+<p>Total departments: {{ departments.count }}</p>
+<p>Total courses: {{ total_courses }}</p>
+<p>Total students: {{ total_students }}</p>
+
+<h2>Departments</h2>
+<ul>
+  {% for department in departments %}
+    <li>
+      <a href="{% url 'academics:department_detail' department.pk %}">{{ department.name }}</a>
+      (Chair: {{ department.chairperson.get_full_name }})
+      - Courses: {{ department.courses.count }}
+      - Staff: {{ department.staff.count }}
+    </li>
+  {% empty %}
+    <li>No departments available.</li>
+  {% endfor %}
+</ul>

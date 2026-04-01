@@ -1,1 +1,17 @@
-<div>course_detail page</div>
+<div style="color: green;">course_detail.html</div>
+<h1>{{ course.name }}</h1>
+<p><strong>Department:</strong> {% if course.department %}{{ course.department.name }}{% else %}Unassigned{% endif %}</p>
+<p><strong>Credits:</strong> {{ course.credits }}</p>
+
+<h2>Enrolled Students</h2>
+<ul>
+  {% for enrollment in enrollments %}
+    <li>{{ enrollment.student.first_name }} {{ enrollment.student.last_name }}
+      {% if enrollment.grade %}- Grade: {{ enrollment.grade }}{% endif %}
+    </li>
+  {% empty %}
+    <li>No students enrolled yet.</li>
+  {% endfor %}
+</ul>
+
+<p><a href="{% url 'academics:course_list' %}">Back to course list</a></p>

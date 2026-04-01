@@ -1,1 +1,20 @@
-<div>instructor_dashboard page</div>
+<div style="color: green;">instructor_dashboard.html</div>
+<h1>Instructor Dashboard</h1>
+{% if department %}
+  <p>Department: {{ department.name }}</p>
+  <p>Chairperson: {{ department.chairperson.get_full_name }}</p>
+{% else %}
+  <p>You are not assigned to a department.</p>
+{% endif %}
+
+<h2>Your Courses</h2>
+<ul>
+  {% for course in courses %}
+    <li>
+      <a href="{% url 'academics:course_detail' course.pk %}">{{ course.name }}</a>
+      - Credits: {{ course.credits }}
+    </li>
+  {% empty %}
+    <li>No courses assigned.</li>
+  {% endfor %}
+</ul>

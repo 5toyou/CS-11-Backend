@@ -1,0 +1,18 @@
+<div style="color: green;">course_list.html</div>
+<h1>Courses</h1>
+<form method="get">
+  <label for="department">Filter by Department:</label>
+  <input id="department" name="department" value="{{ request.GET.department }}" placeholder="Department name" />
+  <button type="submit">Apply</button>
+</form>
+
+<ul>
+  {% for course in courses %}
+    <li>
+      <a href="{% url 'academics:course_detail' course.pk %}">{{ course.name }}</a> - Credits: {{ course.credits }}
+      {% if course.department %} - Department: {{ course.department.name }}{% endif %}
+    </li>
+  {% empty %}
+    <li>No courses found.</li>
+  {% endfor %}
+</ul>
