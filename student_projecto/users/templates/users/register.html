@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>register</title>
+    <link rel="stylesheet" href="{% static 'register.css' %}">
+</head>
+<body>
+    <h1>Register page</h1>
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            <div>
+                <label>First Name:</label>
+                <input type="text" name="first_name" required>
+            </div>
+            <div>
+                <label>Last Name:</label>
+                <input type="text" name="last_name" required>
+            </div>
+            <div>
+                <label for="phone">Phone</label>
+                <input type="phone" id="phone" name="phone" required>
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
+    <div>go to <a href="{% url 'login' %}">login</a></div>
+
+</body>
+</html>

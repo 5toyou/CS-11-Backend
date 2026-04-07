@@ -1,0 +1,1 @@
+to start project type in console: python manage.py runserver
