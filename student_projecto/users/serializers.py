@@ -9,8 +9,24 @@ class BranchSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['id', 'phone', 'first_name', 'last_name', 'role', 'branches']
-        extra_kwargs = {'password': {'write_only': True}}
+        fields = ['id', 'phone', 'first_name', 'last_name', 'role', 'branches', 'password']
+        extra_kwargs = {'password': {'write_only': True, 'required': True}}
+
+    def create(self, validated_data):
+        password = validated_data.pop('password', None)
+        user = CustomUser.objects.create_user(
+            password=password,
+            **validated_data
+        )
+        return user
+
+    def update(self, instance, validated_data):
+        password = validated_data.pop('password', None)
+        user = super().update(instance, validated_data)
+        if password:
+            user.set_password(password)
+            user.save()
+        return user
 
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:

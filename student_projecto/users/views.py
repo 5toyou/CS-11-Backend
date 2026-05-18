@@ -43,7 +43,13 @@ def register_view(request):
                 'error': 'Phone number already exists'
             })
         
-        user = User.objects.create_user(phone=phone, password=password, first_name=first_name, last_name=last_name)
+        user = User.objects.create_user(
+            phone=phone,
+            password=password,
+            first_name=first_name,
+            last_name=last_name,
+            role='TEACHER'
+        )
         login(request, user)
         return redirect('main')
     return render(request, 'users/register.html')

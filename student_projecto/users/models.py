@@ -16,19 +16,25 @@ class Branch(models.Model):
 
 
 class CustomUserManager(BaseUserManager):
-    def create_user(self, phone, password=None, **extra_fields):
+    def create_user(self, phone, password=None, role=None, **extra_fields):
+        if not phone:
+            raise ValueError('The phone number must be set')
+        if role is None:
+            raise ValueError('The user must have a role.')
+
         extra_fields.setdefault('is_active', True)
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
-        user = self.model(phone=phone, **extra_fields)
+
+        user = self.model(phone=phone, role=role, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
     
     def create_superuser(self, phone, password=None, **extra_fields):
+        extra_fields.setdefault('role', 'ADMIN')
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('role', 'ADMIN')
 
         if extra_fields.get('role') != 'ADMIN':
             raise ValueError('Superuser must have role="ADMIN".')
