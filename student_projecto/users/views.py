@@ -19,8 +19,11 @@ def login_view(request):
         return render(request, 'users/login.html', {'already_logged_in': True})
     
     if request.method == 'POST':
+        # `CustomUser.USERNAME_FIELD` is `phone`, but Django's
+        # `authenticate()` expects the username value under the
+        # `username` kwarg for the default backend.
         user = authenticate(request,
-            phone=request.POST['phone'],
+            username=request.POST['phone'],
             password=request.POST['password'])
         if user:
             login(request, user)
@@ -55,7 +58,7 @@ def logout_view(request):
 
 class BranchViewSet(viewsets.ModelViewSet):
     queryset = Branch.objects.all()
-    serializer_serializer = BranchSerializer
+    serializer_class = BranchSerializer
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all()

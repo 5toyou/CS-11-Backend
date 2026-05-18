@@ -20,7 +20,7 @@ router.register(r'attendance', AttendanceViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', main, name='main'),
+    path('main/', main, name='main'),
     path('login/', login_view, name='login'),
     path('register/', register_view, name='register'),
     path('logout/', logout_view, name='logout'),

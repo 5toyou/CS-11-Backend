@@ -1,42 +1,36 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>login</title>
+    <title>Вхід в систему</title>
     <link rel="stylesheet" href="{% static 'login.css' %}">
 </head>
 <body>
-    <h1>Login page</h1>
-
-    {% if error %}
-        <div class="error">{{ error }}</div>
-    {% endif %}
-
-    {% if already_logged_in %}
-        <p>You are already logged in.</p>
-        <form method="post" action="{% url 'logout' %}">
+    <div class="login-container">
+        <h2>Login to CRM</h2>
+        <form method="POST">
             {% csrf_token %}
-            <button type="submit">Log out</button>
+            {% if error %}
+                <p class="error">{{ error }}</p>
+            {% endif %}
+            {% if already_logged_in %}
+                <p>You are already logged in.</p>
+                <a href="{% url 'main' %}">Go to Dashboard</a>
+            {% endif %}
+            <p>
+                <label for="id_phone">Phone</label><br>
+                <input type="text" name="phone" id="id_phone" required>
+            </p>
+            <p>
+                <label for="id_password">Password</label><br>
+                <input type="password" name="password" id="id_password" required>
+            </p>
+            <button type="submit">Login</button>
         </form>
-    {% else %}
-        <div>
-            <form method="post">
-                {% csrf_token %}
-                <div>
-                    <label for="phone">Phone</label>
-                    <input type="tel" id="phone" name="phone" required>
-                </div>
-                <div>
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                <button type="submit">Login</button>
-            </form>
+        <div class="links">
+            <a href="{% url 'register' %}">Teacher registration</a>
         </div>
-
-        <div>go to <a href="{% url 'register' %}">register</a></div>
-    {% endif %}
+    </div>
 </body>
 </html>
