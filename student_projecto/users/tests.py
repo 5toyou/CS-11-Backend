@@ -9,30 +9,28 @@ User = get_user_model()
 class EducationalCenterTests(TestCase):
 
     def setUp(self):
-        # Створюємо базову інфраструктуру для тестів
-        self.branch = Branch.objects.create(name="Київ", status="active")
+        self.branch = Branch.objects.create(name="Kiyv", status="active")
         
         self.admin = User.objects.create_user(phone="+380991111111", password="password123", role="ADMIN")
         self.teacher = User.objects.create_user(phone="+380992222222", password="password123", role="TEACHER")
         
-        self.subject = Subject.objects.create(branch=self.branch, name="Математика")
+        self.subject = Subject.objects.create(branch=self.branch, name="Mathematics")
         
         self.student = Student.objects.create(
             branch=self.branch,
-            first_name="Іван",
-            last_name="Іванов",
+            first_name="Bo",
+            last_name="Sinner",
             status="active"
         )
 
     def test_custom_user_creation(self):
-        """1. Тест кастомної моделі користувача (вхід за телефоном)"""
+        """1. Test custom user model (login by phone)"""
         user = User.objects.get(phone="+380992222222")
         self.assertEqual(user.role, "TEACHER")
         self.assertTrue(user.check_password("password123"))
 
     def test_lesson_conflict_prevention(self):
-        """2. Тест захисту від конфліктів у розкладі викладача"""
-        # Створюємо перший урок для вчителя на 10:00 - 11:00
+        """2. Test protection against schedule conflicts"""
         Lesson.objects.create(
             type="individual",
             teacher=self.teacher,
@@ -43,7 +41,6 @@ class EducationalCenterTests(TestCase):
             end_time=time(11, 0)
         )
 
-        # Пробуємо через DRF серіалізатор створити накладку на 10:30 - 11:30
         from .serializers import LessonSerializer
         data = {
             "type": "individual",
@@ -56,12 +53,11 @@ class EducationalCenterTests(TestCase):
         }
         
         serializer = LessonSerializer(data=data)
-        # Серіалізатор має повернути False, оскільки спрацює наша валідація
         self.assertFalse(serializer.is_valid())
-        self.assertIn("У цього викладача вже є заняття на цей час!", str(serializer.errors))
+        self.assertIn("Schedule conflict: This teacher has another lesson during this time.", str(serializer.errors))
 
     def test_attendance_marking(self):
-        """3. Тест маркування відвідуваності"""
+        """3. Test attendance marking"""
         lesson = Lesson.objects.create(
             type="individual",
             teacher=self.teacher,

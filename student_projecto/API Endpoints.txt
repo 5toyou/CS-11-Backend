@@ -1,2 +1,55 @@
-login page: /login 
-register page: /register
+API endpoints:
+
+GET /api/branches/
+POST /api/branches/
+GET /api/branches/{id}/
+PUT /api/branches/{id}/
+PATCH /api/branches/{id}/
+DELETE /api/branches/{id}/
+
+GET /api/users/
+POST /api/users/
+GET /api/users/{id}/
+PUT /api/users/{id}/
+PATCH /api/users/{id}/
+DELETE /api/users/{id}/
+
+GET /api/subjects/
+POST /api/subjects/
+GET /api/subjects/{id}/
+PUT /api/subjects/{id}/
+PATCH /api/subjects/{id}/
+DELETE /api/subjects/{id}/
+
+GET /api/students/
+POST /api/students/
+GET /api/students/{id}/
+PUT /api/students/{id}/
+PATCH /api/students/{id}/
+DELETE /api/students/{id}/
+
+GET /api/groups/
+POST /api/groups/
+GET /api/groups/{id}/
+PUT /api/groups/{id}/
+PATCH /api/groups/{id}/
+DELETE /api/groups/{id}/
+
+GET /api/lessons/
+POST /api/lessons/
+GET /api/lessons/{id}/
+PUT /api/lessons/{id}/
+PATCH /api/lessons/{id}/
+DELETE /api/lessons/{id}/
+
+GET /api/attendance/
+POST /api/attendance/
+GET /api/attendance/{id}/
+PUT /api/attendance/{id}/
+PATCH /api/attendance/{id}/
+DELETE /api/attendance/{id}/
+
+POST /api/auth/login/
+POST /api/auth/refresh/
+GET /api/schema/
+GET /api/schema/swagger-ui/

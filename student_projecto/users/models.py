@@ -49,6 +49,11 @@ class CustomUser(AbstractUser):
 
     objects = CustomUserManager()
 
+    def __str__(self):
+        if self.first_name and self.last_name:
+            return f"{self.first_name} {self.last_name} ({self.phone})"
+        return self.phone
+
 
 class Student(models.Model):
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
@@ -72,7 +77,6 @@ class Subject(models.Model):
     status = models.CharField(max_length=20, choices=[('active', 'Active'), ('archived', 'Archived')], default='active')
 
     class Meta:
-        # Назва предмету має бути унікальною в межах однієї філії
         unique_together = ('branch', 'name')
 
     def __str__(self):
@@ -132,7 +136,6 @@ class Lesson(models.Model):
     teacher = models.ForeignKey(CustomUser, on_delete=models.CASCADE, limit_choices_to={'role': 'TEACHER'})
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     
-    # Зв'язки (можуть бути null залежно від типу уроку)
     group = models.ForeignKey(Group, on_delete=models.SET_NULL, null=True, blank=True)
     student = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True, blank=True)
     
@@ -147,7 +150,6 @@ class Lesson(models.Model):
     
 
 class LessonTemplate(models.Model):
-    # Використовується для генерації повторюваних уроків
     type = models.CharField(max_length=20, choices=[('individual', 'Individual'), ('group', 'Group')])
     teacher = models.ForeignKey(CustomUser, on_delete=models.CASCADE, limit_choices_to={'role': 'TEACHER'})
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)

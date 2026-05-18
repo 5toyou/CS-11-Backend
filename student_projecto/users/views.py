@@ -19,15 +19,12 @@ def login_view(request):
         return render(request, 'users/login.html', {'already_logged_in': True})
     
     if request.method == 'POST':
-        # `CustomUser.USERNAME_FIELD` is `phone`, but Django's
-        # `authenticate()` expects the username value under the
-        # `username` kwarg for the default backend.
         user = authenticate(request,
             username=request.POST['phone'],
             password=request.POST['password'])
         if user:
             login(request, user)
-            return redirect('main')  # redirect to main page after login
+            return redirect('main')
         return render(request, 'users/login.html',
                 {'error': 'Invalid credentials'})
     
@@ -72,7 +69,6 @@ class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
 
-    # Фільтрація: повертати лише студентів тієї філії, до якої належить адмін
     def get_queryset(self):
         user = self.request.user
         if user.role == 'ADMIN':
@@ -87,12 +83,11 @@ class LessonViewSet(viewsets.ModelViewSet):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
 
-    # Рольова модель для уроків
     def get_queryset(self):
         user = self.request.user
         if user.role == 'TEACHER':
-            return Lesson.objects.filter(teacher=user) # Вчитель бачить лише свої уроки
-        return Lesson.objects.filter(subject__branch__in=user.branches.all()) # Адмін бачить уроки своїх філій
+            return Lesson.objects.filter(teacher=user)
+        return Lesson.objects.filter(subject__branch__in=user.branches.all())
 
 class AttendanceViewSet(viewsets.ModelViewSet):
     queryset = Attendance.objects.all()

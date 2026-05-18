@@ -49,7 +49,7 @@ class LessonSerializer(serializers.ModelSerializer):
             overlapping_lessons = overlapping_lessons.exclude(pk=self.instance.pk)
 
         if overlapping_lessons.exists():
-            raise serializers.ValidationError("У цього викладача вже є заняття на цей час! Конфлікт розкладу.")
+            raise serializers.ValidationError("Schedule conflict: This teacher has another lesson during this time.")
         
         return attrs
 
