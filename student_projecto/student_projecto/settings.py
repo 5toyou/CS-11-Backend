@@ -107,10 +107,17 @@ WSGI_APPLICATION = 'student_projecto.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 import os
+import dj_database_url
 
-if 'DB_NAME' in os.environ:
+
+if os.environ.get('DATABASE_URL'):
     DATABASES = {
-        'default': {
+        'DEFAULT': dj_database_url.config(conn_max_age=600, ssl_require=True)
+    }
+
+elif 'DB_NAME' in os.environ:
+    DATABASES = {
+        'DEFAULT': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': os.environ.get('DB_NAME'),
             'USER': os.environ.get('DB_USER'),
@@ -119,9 +126,10 @@ if 'DB_NAME' in os.environ:
             'PORT': os.environ.get('DB_PORT'),
         }
     }
+
 else:
     DATABASES = {
-        'default': {
+        'DEFAULT': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
