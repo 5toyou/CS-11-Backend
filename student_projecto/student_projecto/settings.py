@@ -112,12 +112,12 @@ import dj_database_url
 
 if os.environ.get('DATABASE_URL'):
     DATABASES = {
-        'DEFAULT': dj_database_url.config(conn_max_age=600, ssl_require=True)
+        'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
     }
 
 elif 'DB_NAME' in os.environ:
     DATABASES = {
-        'DEFAULT': {
+        'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': os.environ.get('DB_NAME'),
             'USER': os.environ.get('DB_USER'),
@@ -129,7 +129,7 @@ elif 'DB_NAME' in os.environ:
 
 else:
     DATABASES = {
-        'DEFAULT': {
+        'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
